@@ -1,0 +1,86 @@
+public class App {
+	
+	String characterName;
+    String weaponName;
+    int weaponDamage;
+    int hp; 
+    
+    static int hammerMaximumDamage = 50;
+    static int hammerMinimumDamage = 10;
+
+    static int hammer = (int) (Math.random() * ((hammerMaximumDamage - hammerMinimumDamage) + 1)) + hammerMinimumDamage;
+    static int magicWandMaximumDamage = 100;
+    static int magicWandMinimumDamage = 0;
+    static int magicWand = (int) (Math.random() * (magicWandMaximumDamage - magicWandMinimumDamage));
+    
+    static int excaliburDamage = 1000;
+    
+    public App(String charName, int wDamage, int health, String wName){//,) {
+        characterName = charName;
+        weaponName = wName;
+        weaponDamage = wDamage;
+        hp = health;
+    }
+
+    public void beingAttacked(String defenderName, String attackerName, int attackerWeaponDamage, String attackerWeaponName) {
+        if (hp <= 0 || attackerWeaponName == "Excalibur") {
+            System.err.println("YOU CANNOT ATTACK");
+        } else {
+            /* System.err.println("WILD " + attackerName + " APPEARS!"); */
+            System.out.println(attackerName + " STRIKES " + defenderName + " WITH A " + attackerWeaponName + " IT DOES " + attackerWeaponDamage + " DAMAGE");
+            hp = (hp - attackerWeaponDamage);
+            System.out.println(defenderName + " HAS " + hp + " REMAINING HEALTH! ");
+        }
+    }
+    	   
+    public void equipExcalibur() {
+    	
+    	weaponName = "Excalibur";
+    	weaponDamage = excaliburDamage;
+    }
+    
+    public static void searchWeapon(String weaponName) {
+        switch(weaponName) {
+        
+        case "Hammer": //Hammer is equipped on the character you asked for== 
+	        System.out.println("The beast has the hammer");
+	        break;
+        
+        case "magicWand": // hammer is not equipped, but the character has another weapon
+	        System.out.println( "Ja'far has not the hammer, but the magicWand.");
+	        break;
+        
+        case "Excalibur": //none of the characters have the hammer
+	        System.out.println( "Excalibur is not used by any character");
+	        break;
+        
+        default: //the weapon you search for does not exist
+	        System.out.println( "The weapon you ask for is not available in the game");
+	        break;
+        }  
+    }
+
+    public void drinkingHealingPotion() {
+        int healingPotion = 20;
+        hp = hp + healingPotion;
+        System.out.println(characterName + " GAINED " + healingPotion + " HEALTH BY DRINKING A HEALING POTION");
+        System.out.println(characterName + " NOW HAS A HEALTH OF " + hp);
+    }
+
+
+    public static void main(String[] args) {
+        App goodGuy = new App("The Beast", hammer, 100, "Hammer");
+        App evilGuy = new App("Ja'far", magicWand, 80, "Magic Wand");
+        
+        goodGuy.equipExcalibur();
+        goodGuy.beingAttacked(goodGuy.characterName, evilGuy.characterName, evilGuy.weaponDamage, evilGuy.weaponName);
+        evilGuy.beingAttacked(evilGuy.characterName, goodGuy.characterName, goodGuy.weaponDamage, goodGuy.weaponName );
+        goodGuy.drinkingHealingPotion();
+        evilGuy.drinkingHealingPotion();
+        
+        searchWeapon("Hammer");
+      
+        
+    }
+
+}
